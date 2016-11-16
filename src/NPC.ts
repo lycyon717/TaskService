@@ -81,10 +81,10 @@ class NPC extends egret.DisplayObjectContainer implements Observer {
 		this._stage.setChildIndex(this._panel, this._stage.numChildren - 1);
 	}
 
-	private rule(taskList: any): Task {
+	private rule =(taskList: any): Task => {
 
 		for (let taskid in taskList) {
-			if (taskList[taskid]._status == TaskStatus.ACCEPTABLE || taskList[taskid]._status == TaskStatus.CAN_SUBMIT) {
+			if ((taskList[taskid]._status == TaskStatus.ACCEPTABLE && taskList[taskid].fromNpcId == this._id) || (taskList[taskid]._status == TaskStatus.CAN_SUBMIT && taskList[taskid].toNpcId == this._id) ) {
 				return taskList[taskid];
 			}
 		}

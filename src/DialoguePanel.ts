@@ -52,7 +52,7 @@ class DialoguePanel extends egret.DisplayObjectContainer {
 			return ErrorCode.MISSING_TASK;
 		}
 
-		if(task.fromNpcId == this.NPCId && task._status == TaskStatus.ACCEPTABLE){
+		if (task.fromNpcId == this.NPCId && task._status == TaskStatus.ACCEPTABLE) {
 			TaskService.taskService.accept(task.id);
 		}
 		if (task.toNpcId == this.NPCId && task._status == TaskStatus.CAN_SUBMIT) {
@@ -61,10 +61,10 @@ class DialoguePanel extends egret.DisplayObjectContainer {
 		this._stage.setChildIndex(this, 0);
 	}
 
-	rule(taskList: any): Task {
+	rule = (taskList: any): Task => {
 
 		for (let taskid in taskList) {
-			if (taskList[taskid]._status == TaskStatus.ACCEPTABLE || taskList[taskid]._status == TaskStatus.CAN_SUBMIT) {
+			if ((taskList[taskid]._status == TaskStatus.ACCEPTABLE && taskList[taskid].fromNpcId == this.NPCId) || (taskList[taskid]._status == TaskStatus.CAN_SUBMIT && taskList[taskid].toNpcId == this.NPCId)) {
 				return taskList[taskid];
 			}
 		}

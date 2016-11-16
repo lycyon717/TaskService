@@ -3,6 +3,14 @@ var NPC = (function (_super) {
     function NPC(bitmapName, id, panel, stage) {
         var _this = this;
         _super.call(this);
+        this.rule = function (taskList) {
+            for (var taskid in taskList) {
+                if ((taskList[taskid]._status == TaskStatus.ACCEPTABLE && taskList[taskid].fromNpcId == _this._id) || (taskList[taskid]._status == TaskStatus.CAN_SUBMIT && taskList[taskid].toNpcId == _this._id)) {
+                    return taskList[taskid];
+                }
+            }
+            return null;
+        };
         this.touchEnabled = true;
         this._id = id;
         this._panel = panel;
@@ -54,14 +62,6 @@ var NPC = (function (_super) {
         this._panel.textField.text = task.desc;
         this._panel.NPCId = this._id;
         this._stage.setChildIndex(this._panel, this._stage.numChildren - 1);
-    };
-    p.rule = function (taskList) {
-        for (var taskid in taskList) {
-            if (taskList[taskid]._status == TaskStatus.ACCEPTABLE || taskList[taskid]._status == TaskStatus.CAN_SUBMIT) {
-                return taskList[taskid];
-            }
-        }
-        return null;
     };
     NPC.NPC_HEIGHT = 200;
     NPC.EMOJI_SIZE = 50;

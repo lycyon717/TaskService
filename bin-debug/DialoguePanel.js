@@ -3,6 +3,14 @@ var DialoguePanel = (function (_super) {
     function DialoguePanel(stage) {
         var _this = this;
         _super.call(this);
+        this.rule = function (taskList) {
+            for (var taskid in taskList) {
+                if ((taskList[taskid]._status == TaskStatus.ACCEPTABLE && taskList[taskid].fromNpcId == _this.NPCId) || (taskList[taskid]._status == TaskStatus.CAN_SUBMIT && taskList[taskid].toNpcId == _this.NPCId)) {
+                    return taskList[taskid];
+                }
+            }
+            return null;
+        };
         this._stage = stage;
         this.belowPanel = new egret.Shape();
         this.belowPanel.graphics.beginFill(0x000000, 0.5);
@@ -38,14 +46,6 @@ var DialoguePanel = (function (_super) {
             TaskService.taskService.finish(task.id);
         }
         this._stage.setChildIndex(this, 0);
-    };
-    p.rule = function (taskList) {
-        for (var taskid in taskList) {
-            if (taskList[taskid]._status == TaskStatus.ACCEPTABLE || taskList[taskid]._status == TaskStatus.CAN_SUBMIT) {
-                return taskList[taskid];
-            }
-        }
-        return null;
     };
     DialoguePanel.TOTAL_WIDTH = 400;
     DialoguePanel.TOTAL_HEIGHT = 300;
